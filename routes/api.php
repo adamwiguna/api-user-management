@@ -28,9 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-    Route::resource('organization', \App\Http\Controllers\Api\OrganizationController::class);
-    Route::resource('position', \App\Http\Controllers\Api\PositionController::class);
-    // Route::get('/organizations', function () {
-    //     return new OrganizationResource(Organization::all());
-    // });
+    Route::resource('organization', \App\Http\Controllers\Api\Admin\OrganizationController::class);
+    Route::resource('position', \App\Http\Controllers\Api\Admin\PositionController::class);
+    Route::resource('user', \App\Http\Controllers\Api\Admin\UserController::class);
 });

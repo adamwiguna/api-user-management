@@ -19,4 +19,3 @@ Route::get('/', function () {
     // dd(new OrganizationResource(Organization::with(['positions'])->get(['id', 'name'])));
     return view('welcome');
 });
-Route::resource('position-web', \App\Http\Controllers\Api\PositionController::class);
