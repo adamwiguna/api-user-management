@@ -3,7 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-
+use App\Http\Resources\OrganizationResource;
+use App\Models\Organization;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,4 +25,12 @@ Route::post('register', [AuthController::class, 'signup']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request;
     // return $request->user();
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::resource('organization', \App\Http\Controllers\Api\OrganizationController::class);
+    Route::resource('position', \App\Http\Controllers\Api\PositionController::class);
+    // Route::get('/organizations', function () {
+    //     return new OrganizationResource(Organization::all());
+    // });
 });

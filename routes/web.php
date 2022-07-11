@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Resources\OrganizationResource;
+use App\Models\Organization;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    // dd(new OrganizationResource(Organization::with(['positions'])->get(['id', 'name'])));
     return view('welcome');
 });
+Route::resource('position-web', \App\Http\Controllers\Api\PositionController::class);
