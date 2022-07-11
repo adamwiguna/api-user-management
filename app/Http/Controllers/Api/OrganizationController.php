@@ -13,9 +13,12 @@ class OrganizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $organization = Organization::select('id', 'name', 'alias')->with(['positions:id,organization_id,name,alias'])->paginate();
+        // dd($request->page);
+        $organization = Organization::select('id', 'name', 'alias')
+                                        // ->with(['positions:id,organization_id,name,alias'])
+                                        ->paginate();
 
         return $organization;
     }

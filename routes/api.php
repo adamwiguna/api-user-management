@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     // return $request->user();
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::resource('organization', \App\Http\Controllers\Api\OrganizationController::class);
     Route::resource('position', \App\Http\Controllers\Api\PositionController::class);
     // Route::get('/organizations', function () {

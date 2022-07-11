@@ -15,8 +15,9 @@ class PositionController extends Controller
      */
     public function index()
     {
-        $positions = Position::select('id', 'name', 'alias')->with('organization')->paginate();
-        dd($positions);
+        $positions = Position::select('id', 'name', 'alias', 'organization_id')->with('organization:id,name,alias')->paginate();
+        // dd($positions);
+        // print_r(auth()->user()->name);
         return $positions;
     }
 
