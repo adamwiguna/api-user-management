@@ -16,9 +16,12 @@ class OrganizationController extends Controller
     public function index(Request $request)
     {
         // dd($request->page);
-        $organizations = Organization::select('id', 'name', 'alias')
-                                        // ->with(['positions:id,organization_id,name,alias'])
-                                        ->paginate();
+        $organizations = Organization::select('id', 'name', 'alias');
+        $organizations = $organizations->with(['positions:id,organization_id,name,alias']);
+        if ($request->has('search')) {
+            $organizations = $organizations->search($request->search);
+        }
+        $organizations = $organizations->paginate();
 
         // return $organization;
         return response()->json($organizations, 200);
@@ -96,6 +99,7 @@ class OrganizationController extends Controller
         // dd($request->all);
         $request->validate([
             'name' => 'required|min:4|max:50',
+            'alias' => 'nullable|min:3|max:20',
         ]);
 
 

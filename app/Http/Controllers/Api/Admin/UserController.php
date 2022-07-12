@@ -17,7 +17,7 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        return response()->json($users, 200,);
+        return response()->json($users, 200);
     }
 
     /**
@@ -38,7 +38,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:50',
+            'email' => 'required|max:50|unique:users,email',
+            'password' => 'required|max:50',
+        ]);
+
+        $user = User::create([
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'name' => $request->name,
+        ]);
+
+        return response()->json($user, 200);
+
     }
 
     /**
@@ -49,7 +62,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return response()->json($user, 200);
     }
 
     /**
@@ -72,7 +85,25 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:50',
+            'email' => 'required|max:50|unique:users,email',
+            'password' => 'nullable|max:50',
+        ]);
+
+        $user->update([
+            'email' => $request->email,            
+            'name' => $request->name,
+        ]);
+
+        if ($request->password !== null) {
+            $user->update([
+                'password' => $request->password,
+            ]);
+        }
+
+        return response()->json($user, 200);
+
     }
 
     /**
@@ -83,6 +114,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return response()->json('Data Telah Dihapus', 200);
     }
 }

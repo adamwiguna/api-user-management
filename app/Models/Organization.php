@@ -22,4 +22,11 @@ class Organization extends Model
     {
         return $this->hasMany(Position::class);
     }
+
+    public function scopeSearch($query, $string)
+    {
+        $query->where('name', 'like', '%'.$string.'%');
+
+        return $query;
+    }
 }

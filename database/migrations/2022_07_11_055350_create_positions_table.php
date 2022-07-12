@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('alias')->nullable();
-            $table->boolean('is_operator')->default(false);
+            $table->boolean('is_operator')->nullable()->default(false);
             $table->foreignId('organization_id')->constrained()->onDelete('cascade');
             $table->timestamps();
 

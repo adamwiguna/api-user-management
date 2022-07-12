@@ -15,7 +15,12 @@ class PositionController extends Controller
      */
     public function index()
     {
-        //
+        $positions = Position::select('id', 'name', 'alias', 'organization_id')
+                                        ->with(['organization:id,name,alias'])
+                                        ->paginate();
+
+        // return $position;
+        return response()->json($positions, 200);
     }
 
     /**
@@ -36,7 +41,21 @@ class PositionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:5|max:50',
+            'alias' => 'nullable|min:1|max:20',
+            'organization_id' => 'required',
+        ]);
+
+        $position = Position::create([
+            'name' => $request->name,
+            'alias' => $request->alias,
+            'organization_id' => $request->organization_id,
+            'is_operator' => $request->is_operator,
+        ]);
+
+        return response()->json($position->load('organization:id,name,alias'), 200);
+
     }
 
     /**
@@ -47,7 +66,8 @@ class PositionController extends Controller
      */
     public function show(Position $position)
     {
-        //
+        
+        return response()->json($position->load('organization:id,name,alias'), 200);
     }
 
     /**
@@ -58,7 +78,7 @@ class PositionController extends Controller
      */
     public function edit(Position $position)
     {
-        //
+       
     }
 
     /**
@@ -70,7 +90,19 @@ class PositionController extends Controller
      */
     public function update(Request $request, Position $position)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:5|max:50',
+            'alias' => 'nullable|min:1|max:20',
+            'organization_id' => 'required',
+        ]);
+
+        $position->update([
+            'name' => $request->name,
+            'alias' => $request->alias,
+            'organization_id' => $request->organization_id,
+        ]);
+
+        return response()->json($position, 200);
     }
 
     /**
@@ -81,6 +113,7 @@ class PositionController extends Controller
      */
     public function destroy(Position $position)
     {
-        //
+        $position->delete();
+        return response()->json('Data Telah Dihapus', 200);
     }
 }
